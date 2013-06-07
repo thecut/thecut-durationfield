@@ -1,18 +1,6 @@
-The Cut Django App: DurationField
-
-====================
-thecut.durationfield
-====================
-
-This application requires ``python-dateutil`` and ``isodate``.
-
-To install these external dependancies (whilst in the project's activated
-virtualenv)::
-    pip install python-dateutil isodate
-
-
-This app is a custom django model field (extended CharField) to accept ISO 8601
-defined representation.
+# -*- coding: utf-8 -*-
+"""Create new django model field (extended CharField) to accept ISO 8601 defined
+representation.
 
 http://en.wikipedia.org/wiki/ISO_8601#Durations
 
@@ -45,5 +33,5 @@ depending on whether it's possible to convert the
 
 [1] isodate https://pypi.python.org/pypi/isodate
 [2] dateutil.relativedelta for consistency.
-
-
+"""
+__version__ = '0.0.1'
