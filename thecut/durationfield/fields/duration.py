@@ -17,23 +17,21 @@ class DurationField(CharField):
 
     description = _("Duration of time in ISO 8601 representation")
 
+    default_error_messages = {
+        'invalid': _("This value must be in ISO 8601 Duration format (see:
+                     http://en.wikipedia.org/wiki/ISO_8601#Durations)."),
+        'unknown_type': _("The value's type could not be converted"),
+    }
+
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 64
         super(DurationField, self).__init__(*args, **kwargs)
 
+
     def get_internal_type(self):
-        return "DurationField"
+        return "CharField"
 
 
 if add_introspection_rules:
-    # Rules for South field introspection
-    duration_rules = [
-        (
-            (DurationField,),
-            [],
-            {}
-        )
-    ]
-    add_introspection_rules(
-        duration_rules, ["^thecut\.durationfield\.fields\.DurationField"]
-    )
+    add_introspection_rules([], ["^thecut\.durationfield\.fields\.duration"])
+
