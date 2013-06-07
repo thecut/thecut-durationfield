@@ -4,6 +4,11 @@ from django.db.models.fields import CharField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, smart_text
 
+try:
+    from south.modelsinspector import add_introspection_rules
+except ImportError:
+    add_introspection_rules = None
+
 
 @python_2_unicode_compatible
 class DurationField(CharField):
@@ -19,3 +24,16 @@ class DurationField(CharField):
     def get_internal_type(self):
         return "DurationField"
 
+
+if add_introspection_rules:
+    # Rules for South field introspection
+    duration_rules = [
+        (
+            (DurationField,),
+            [],
+            {}
+        )
+    ]
+    add_introspection_rules(
+        duration_rules, ["^thecut\.durationfield\.fields\.DurationField"]
+    )
