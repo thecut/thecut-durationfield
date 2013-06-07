@@ -1,0 +1,12 @@
+The Cut Django App: DurationField
+
+====================
+thecut.durationfield
+====================
+
+This application requires ``python-dateutil`` and ``isodate``.
+
+To install these external dependancies (whilst in the project's activated
+virtualenv)::
+    pip install python-dateutil isodate
+
