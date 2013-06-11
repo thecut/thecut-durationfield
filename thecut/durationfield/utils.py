@@ -67,4 +67,3 @@ def isodate_to_relativedelta(value):
     new_rdelta.microseconds = datetime_to_convert.microseconds
 
     return new_rdelta
-
