@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.forms.util import ValidationError
 from isodate.isoerror import ISO8601Error
+from isodate import duration_isoformat
 from thecut.durationfield.utils import isodate_to_relativedelta
 
 try:
@@ -43,6 +44,9 @@ class DurationField(CharField):
         except ISO8601Error:
             raise ValidationError(self.default_error_messages['invalid'])
         return isodate
+
+    def get_prep_value(self, value):
+        return duration_isoformat(value)
 
 if add_introspection_rules:
     add_introspection_rules([], ["^thecut\.durationfield\.fields"])
