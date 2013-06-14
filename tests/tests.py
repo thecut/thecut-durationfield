@@ -123,3 +123,48 @@ class TestRelativeDeltaField(TestCase):
         delta = relativedelta(months=1, days=2)
         duration_string = self.field.get_prep_value(delta)
         self.assertEqual(duration_string, 'P1M2D')
+
+    def test_converts_given_duration_to_relativedelta(self):
+        self.field.convert_duration_to_relativedelta = Mock(return_value=relativedelta())
+        self.field.to_python('P1M')
+        self.assertTrue(self.field.convert_duration_to_relativedelta.called)
+
+    def test_can_convert_duration_years(self):
+        duration = isodate.duration.Duration(years=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.years, 1)
+
+    def test_can_convert_duration_months(self):
+        duration = isodate.duration.Duration(months=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.months, 1)
+
+    def test_can_convert_duration_weeks(self):
+        duration = isodate.duration.Duration(weeks=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.days, 7)
+
+    def test_can_convert_duration_days(self):
+        duration = isodate.duration.Duration(days=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.days, 1)
+
+    def test_can_convert_duration_hours(self):
+        duration = isodate.duration.Duration(hours=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.hours, 1)
+
+    def test_can_convert_duration_minutes(self):
+        duration = isodate.duration.Duration(minutes=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.minutes, 1)
+
+    def test_can_convert_duration_seconds(self):
+        duration = isodate.duration.Duration(seconds=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.seconds, 1)
+
+    def test_can_convert_duration_microseconds(self):
+        duration = isodate.duration.Duration(microseconds=1)
+        delta = self.field.convert_duration_to_relativedelta(duration)
+        self.assertEqual(delta.microseconds, 1)

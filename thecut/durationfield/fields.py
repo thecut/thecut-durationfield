@@ -87,6 +87,8 @@ class RelativeDeltaField(ISO8601DurationField):
         return duration_string
 
     def convert_relativedelta_to_duration(self, delta):
+        """Convert a :py:class:`~datetime.relativedelta.relativedelta` to a
+        :py:class:`~isodate.duration.Duration`."""
         duration = isodate.duration.Duration(days=delta.days,
             seconds=delta.seconds, microseconds=delta.microseconds,
             minutes=delta.minutes, hours=delta.hours, months=delta.months,
@@ -94,7 +96,12 @@ class RelativeDeltaField(ISO8601DurationField):
         return duration
 
     def convert_duration_to_relativedelta(self, duration):
-        return relativedelta()
+        """Convert a :py:class:`~isodate.duration.Duration` to a
+        :py:class:`~datetime.relativedelta.relativedelta`."""
+        delta = relativedelta(years=duration.years, months=duration.months,
+            days=duration.days, seconds=duration.tdelta.seconds,
+            microseconds=duration.tdelta.microseconds)
+        return delta
 
 if add_introspection_rules:
     add_introspection_rules([], ["^thecut\.durationfield\.fields"])
