@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from dateutil.relativedelta import relativedelta
 from django.db.models import Field, SubfieldBase
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
@@ -65,6 +66,35 @@ class ISO8601DurationField(Field):
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
         return self.get_prep_value(value)
+
+
+class RelativeDeltaField(ISO8601DurationField):
+    """Store and retrieve :py:class:`~datetime.relativedelta.relativedelta`.
+
+    Stores the relativedelta as a string representation of a
+    :py:class:`~isodate.duration.Duration`.
+    """
+
+    def to_python(self, value):
+        duration = super(RelativeDeltaField, self).to_python(value)
+        delta = self.convert_duration_to_relativedelta(duration)
+        return delta
+
+    def get_prep_value(self, value):
+        # Build the Duration object from the given relativedelta.
+        duration = self.convert_relativedelta_to_duration(value)
+        duration_string = super(RelativeDeltaField, self).get_prep_value(duration)
+        return duration_string
+
+    def convert_relativedelta_to_duration(self, delta):
+        duration = isodate.duration.Duration(days=delta.days,
+            seconds=delta.seconds, microseconds=delta.microseconds,
+            minutes=delta.minutes, hours=delta.hours, months=delta.months,
+            years=delta.years)
+        return duration
+
+    def convert_duration_to_relativedelta(self, duration):
+        return relativedelta()
 
 if add_introspection_rules:
     add_introspection_rules([], ["^thecut\.durationfield\.fields"])

@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ValidationError
 import isodate
-from thecut.durationfield.fields import ISO8601DurationField
+from mock import Mock
+from thecut.durationfield import fields
 from unittest import TestCase
 
 
 class TestISO8061DurationField(TestCase):
 
     def setUp(self):
-        self.field = ISO8601DurationField()
+        self.field = fields.ISO8601DurationField()
 
     def test_to_python_returns_a_duration_when_given_a_duration(self):
 
@@ -43,3 +45,81 @@ class TestISO8061DurationField(TestCase):
 
         duration = isodate.parse_duration('P1M')
         self.assertEqual('P1.0M', self.field.get_prep_value(duration))
+
+
+class TestRelativeDeltaField(TestCase):
+
+    def setUp(self):
+        self.field = fields.RelativeDeltaField()
+
+    def test_returns_a_relativedelta_when_given_an_iso8601_formatted_string(self):
+
+        d = relativedelta()
+        self.assertEqual(type(d), type(self.field.to_python('P1M')))
+
+    def test_returns_an_iso8601_formatted_string(self):
+        # Given a timedelta, get_prep_value should return a value suitable for
+        # saving to the db. Specifically, an ISO8601 formatted duration.
+        duration = relativedelta(months=1.0)
+        self.assertEqual(self.field.get_prep_value(duration), 'P1.0M')
+
+    def test_converts_given_relativedelta_to_a_duration(self):
+        self.field.convert_relativedelta_to_duration = Mock(return_value=isodate.parse_duration('P1M'))
+        delta = relativedelta(months=1)
+        self.field.get_prep_value(delta)
+
+        self.assertTrue(self.field.convert_relativedelta_to_duration.called)
+        self.assertTrue(self.field.convert_relativedelta_to_duration.called_with(delta))
+
+    def test_can_convert_relativedelta_months(self):
+        delta = relativedelta(months=1)
+        duration = isodate.duration.Duration(months=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_days(self):
+        delta = relativedelta(days=1)
+        duration = isodate.duration.Duration(days=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_seconds(self):
+        delta = relativedelta(seconds=1)
+        duration = isodate.duration.Duration(seconds=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_microseconds(self):
+        delta = relativedelta(microseconds=1)
+        duration = isodate.duration.Duration(microseconds=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_minutes(self):
+        delta = relativedelta(minutes=1)
+        duration = isodate.duration.Duration(minutes=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_hours(self):
+        delta = relativedelta(hours=1)
+        duration = isodate.duration.Duration(hours=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_months(self):
+        delta = relativedelta(months=1)
+        duration = isodate.duration.Duration(months=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_can_convert_relativedelta_years(self):
+        delta = relativedelta(years=1)
+        duration = isodate.duration.Duration(years=1)
+        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+                         duration)
+
+    def test_converts_given_complex_relativedelta_to_a_duration(self):
+        delta = relativedelta(months=1, days=2)
+        duration_string = self.field.get_prep_value(delta)
+        self.assertEqual(duration_string, 'P1M2D')
