@@ -47,3 +47,17 @@ depending on whether it's possible to convert the
 [2] dateutil.relativedelta for consistency.
 
 
+=================
+Running the tests
+=================
+
+Start by setting up your virtualenv:
+
+  $ cd thecut-durationfield
+  $ virtualenv . --no-site-packages
+  $ source bin/activate
+  $ pip install -r requirements.txt
+
+Run the tests:
+
+  $ (thecut-durationfield) python runtests.py tests

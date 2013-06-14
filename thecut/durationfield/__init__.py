@@ -34,4 +34,3 @@ depending on whether it's possible to convert the
 [1] isodate https://pypi.python.org/pypi/isodate
 [2] dateutil.relativedelta for consistency.
 """
-__version__ = '0.0.1'
