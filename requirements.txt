@@ -1,3 +1,4 @@
 # Requirements for running the tests.
 Django==1.5.1
 isodate==0.4.9
+python-dateutil==2.1

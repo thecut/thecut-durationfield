@@ -8,5 +8,9 @@ setup(name='thecut-durationfield',
     version=get_git_version(),
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['distribute', 'isodate == 0.4.9',],
+    install_requires=[
+        'distribute',
+        'isodate == 0.4.9',
+        'python-dateutil == 2.1'
+    ],
 )
