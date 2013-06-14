@@ -63,10 +63,6 @@ class ISO8601DurationField(Field):
 
         return isodate.duration_isoformat(value)
 
-    def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
-        return self.get_prep_value(value)
-
 
 class RelativeDeltaField(ISO8601DurationField):
     """Store and retrieve :py:class:`~datetime.relativedelta.relativedelta`.
