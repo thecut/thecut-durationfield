@@ -168,3 +168,7 @@ class TestRelativeDeltaField(TestCase):
         duration = isodate.duration.Duration(microseconds=1)
         delta = self.field.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.microseconds, 1)
+
+    def test_to_python_returns_relativedelta_if_given_a_relativedelta(self):
+        delta = relativedelta(days=1)
+        self.assertEqual(type(delta), type(self.field.to_python(delta)))
