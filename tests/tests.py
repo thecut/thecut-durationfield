@@ -152,12 +152,12 @@ class TestRelativeDeltaField(TestCase):
     def test_can_convert_duration_hours(self):
         duration = isodate.duration.Duration(hours=1)
         delta = self.field.convert_duration_to_relativedelta(duration)
-        self.assertEqual(delta.hours, 1)
+        self.assertEqual(delta.seconds, 60*60)
 
     def test_can_convert_duration_minutes(self):
         duration = isodate.duration.Duration(minutes=1)
         delta = self.field.convert_duration_to_relativedelta(duration)
-        self.assertEqual(delta.minutes, 1)
+        self.assertEqual(delta.seconds, 60)
 
     def test_can_convert_duration_seconds(self):
         duration = isodate.duration.Duration(seconds=1)
