@@ -80,7 +80,9 @@ class RelativeDeltaField(ISO8601DurationField):
             return value
 
         duration = super(RelativeDeltaField, self).to_python(value)
+
         delta = self.convert_duration_to_relativedelta(duration)
+
         return delta
 
     def get_prep_value(self, value):
@@ -101,9 +103,21 @@ class RelativeDeltaField(ISO8601DurationField):
     def convert_duration_to_relativedelta(self, duration):
         """Convert a :py:class:`~isodate.duration.Duration` to a
         :py:class:`~datetime.relativedelta.relativedelta`."""
-        delta = relativedelta(years=duration.years, months=duration.months,
-            days=duration.days, seconds=duration.tdelta.seconds,
-            microseconds=duration.tdelta.microseconds)
+        delta = relativedelta()
+
+        if hasattr(duration, 'years'):
+           delta.years = duration.years
+
+        if hasattr(duration, 'months'):
+            delta.months = duration.months
+
+        if hasattr(duration, 'days'):
+            delta.days=duration.days
+
+        if hasattr(duration, 'tdelta'):
+            delta.seconds=duration.tdelta.seconds
+            delta.microseconds=duration.tdelta.microseconds
+
         return delta
 
 if add_introspection_rules:
