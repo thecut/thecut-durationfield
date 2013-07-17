@@ -20,7 +20,7 @@ class TestISO8061DurationField(TestCase):
 
     def test_to_python_returns_none_when_given_none(self):
 
-        self.assertEqual(type(None), type(self.field.to_python(None)))
+        self.assertEqual(None, self.field.to_python(None))
 
     def test_to_python_returns_a_duration_when_given_an_empty_string(self):
 
@@ -42,7 +42,7 @@ class TestISO8061DurationField(TestCase):
 
     def test_get_prep_value_returns_none_when_given_none(self):
 
-        self.assertEqual(type(None), type(self.field.get_prep_value(None)))
+        self.assertEqual(None, self.field.get_prep_value(None))
 
     def test_get_prep_value_is_isomorphic(self):
 
