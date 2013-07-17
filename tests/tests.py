@@ -66,6 +66,9 @@ class TestRelativeDeltaField(TestCase):
         duration = relativedelta(months=1.0)
         self.assertEqual(self.field.get_prep_value(duration), 'P1.0M')
 
+    def test_converts_none_to_none(self):
+        self.assertEqual(self.field.get_prep_value(None), None)
+
     def test_converts_given_relativedelta_to_a_duration(self):
         self.field.convert_relativedelta_to_duration = Mock(return_value=isodate.parse_duration('P1M'))
         delta = relativedelta(months=1)

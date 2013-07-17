@@ -102,6 +102,11 @@ class RelativeDeltaField(ISO8601DurationField):
         return delta
 
     def get_prep_value(self, value):
+
+        # Value in DB should be null
+        if value is None:
+            return None
+
         # Build the Duration object from the given relativedelta.
         duration = self.convert_relativedelta_to_duration(value)
         duration_string = super(RelativeDeltaField, self).get_prep_value(duration)
