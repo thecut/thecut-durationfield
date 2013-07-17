@@ -46,11 +46,17 @@ class ISO8601DurationField(Field):
         :rtype: :py:class:`~isodate.duration.Duration`
 
         """
+        # DB value is null
+        if value is None:
+            return None
+
+        # DB value is empty
+        if value == '':
+            return isodate.duration.Duration()
+
         if isinstance(value, isodate.duration.Duration):
             return value
 
-        if value is None or value == '':
-            return isodate.duration.Duration()
         try:
             duration = isodate.parse_duration(value)
         except ISO8601Error:
@@ -58,6 +64,11 @@ class ISO8601DurationField(Field):
         return duration
 
     def get_prep_value(self, value):
+
+        # Value in DB should be null.
+        if value is None:
+            return None
+
         if not isinstance(value, isodate.duration.Duration):
             raise ValidationError('Cannot convert objects that are not Durations.')
 
@@ -76,6 +87,11 @@ class RelativeDeltaField(ISO8601DurationField):
     """
 
     def to_python(self, value):
+
+        # DB value is null
+        if value is None:
+            return None
+
         if isinstance(value, relativedelta):
             return value
 
@@ -94,6 +110,7 @@ class RelativeDeltaField(ISO8601DurationField):
     def convert_relativedelta_to_duration(self, delta):
         """Convert a :py:class:`~datetime.relativedelta.relativedelta` to a
         :py:class:`~isodate.duration.Duration`."""
+
         duration = isodate.duration.Duration(days=delta.days,
             seconds=delta.seconds, microseconds=delta.microseconds,
             minutes=delta.minutes, hours=delta.hours, months=delta.months,

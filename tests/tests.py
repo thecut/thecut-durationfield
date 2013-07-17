@@ -18,10 +18,9 @@ class TestISO8061DurationField(TestCase):
         duration = isodate.parse_duration('P1M')
         self.assertEqual(type(duration), type(self.field.to_python(duration)))
 
-    def test_to_python_returns_a_duration_when_given_none(self):
+    def test_to_python_returns_none_when_given_none(self):
 
-        self.assertEqual(isodate.duration.Duration,
-                         type(self.field.to_python(None)))
+        self.assertEqual(type(None), type(self.field.to_python(None)))
 
     def test_to_python_returns_a_duration_when_given_an_empty_string(self):
 
@@ -40,6 +39,10 @@ class TestISO8061DurationField(TestCase):
     def test_get_prep_value_raises_an_error_when_called_with_an_invalid_object(self):
 
         self.assertRaises(ValidationError, self.field.get_prep_value, 'abc')
+
+    def test_get_prep_value_returns_none_when_given_none(self):
+
+        self.assertEqual(type(None), type(self.field.get_prep_value(None)))
 
     def test_get_prep_value_is_isomorphic(self):
 
