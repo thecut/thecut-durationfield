@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from dateutil.relativedelta import relativedelta
-from django.db.models import Field, SubfieldBase
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
-from django.forms.widgets import TextInput
-from django import forms
 from isodate.isoerror import ISO8601Error
 import isodate
-from isodate import duration_isoformat
-
+from dateutil.relativedelta import relativedelta
 from . import utils
+
 
 try:
     from south.modelsinspector import add_introspection_rules
@@ -20,14 +17,14 @@ except ImportError:
 
 
 @python_2_unicode_compatible
-class ISO8601DurationField(Field):
+class ISO8601DurationField(models.Field):
     """Store and retrieve ISO 8601 formatted durations.
 
     """
 
     description = _("A duration of time (ISO 8601 format)")
 
-    __metaclass__ = SubfieldBase
+    __metaclass__ = models.SubfieldBase
 
     default_error_messages = {
         'invalid': _("This value must be in ISO 8601 Duration format."),
@@ -81,32 +78,6 @@ class ISO8601DurationField(Field):
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
         return self.get_prep_value(value)
-
-
-class RelativeDeltaWidget(TextInput):
-
-    def _format_value(self, value):
-
-        if isinstance(value, relativedelta):
-            duration = utils.convert_relativedelta_to_duration(value)
-            value = isodate.duration_isoformat(duration)
-
-        return value
-
-    def render(self, name, value, attrs=None):
-        value = self._format_value(value)
-        return super(RelativeDeltaWidget, self).render(name, value, attrs)
-
-    def _has_changed(self, initial, data):
-        return super(RelativeDeltaWidget, self)._has_changed(
-            self._format_value(initial), data)
-
-
-
-
-class RelativeDeltaFormField(forms.Field):
-
-    widget = RelativeDeltaWidget
 
 
 class RelativeDeltaField(ISO8601DurationField):

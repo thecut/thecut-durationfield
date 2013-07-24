@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 import isodate
 from mock import Mock
-from thecut.durationfield import fields
+from thecut.durationfield import models
 from thecut.durationfield import utils
 from unittest import TestCase
 
@@ -13,7 +13,7 @@ from unittest import TestCase
 class TestISO8061DurationField(TestCase):
 
     def setUp(self):
-        self.field = fields.ISO8601DurationField()
+        self.field = models.ISO8601DurationField()
 
     def test_to_python_returns_a_duration_when_given_a_duration(self):
 
@@ -55,7 +55,7 @@ class TestISO8061DurationField(TestCase):
 class TestRelativeDeltaField(TestCase):
 
     def setUp(self):
-        self.field = fields.RelativeDeltaField()
+        self.field = models.RelativeDeltaField()
 
     def test_returns_a_relativedelta_when_given_an_iso8601_formatted_string(self):
 
@@ -209,22 +209,12 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(january_first + one_and_a_half_years, datetime(2014, 1, 1))
 
     def test_can_add_a_relative_delta_for_a_partial_day_to_a_datetime(self):
-        # A relativdelta with a non-integer value for month/year/week/days
-        # cannot be added to a datetime (see
-        # https://bugs.launchpad.net/dateutil/+bug/1204017). So we need to
-        # manually cast these to be integers. We won't be getting back exactly
-        # what we expect, but it's probably better than propograting a type
-        # error from deep inside relativedelta.
-
+        # Actually, turns out 1.5 days is ok, since it gets magically converted
+        # to one day and 12 hours.
         duration = isodate.duration.Duration(days=1.5)
         one_and_a_half_days = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(one_and_a_half_days.days, 1)
 
         january_first = datetime(2013, 1, 1)
-        print january_first, one_and_a_half_days
-        self.assertEqual(january_first + one_and_a_half_days, datetime(2013, 1, 2))
-
-    # def test_can_parse_own_text_output(self):
-
-    #     duration = isodate.parse_duration('P1M')
-    #     self.assertEqual('P1.0M', self.field.get_prep_value(duration))
+        self.assertEqual(january_first + one_and_a_half_days,
+                         datetime(2013, 1, 2, 12, 0, 0))

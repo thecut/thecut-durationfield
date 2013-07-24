@@ -40,7 +40,7 @@ def convert_duration_to_relativedelta(duration):
         delta.months = int(duration.months)
 
     if hasattr(duration, 'days'):
-        delta.days = duration.days#int(duration.days)
+        delta.days = duration.days
 
     if hasattr(duration, 'tdelta'):
         delta.seconds = duration.tdelta.seconds
