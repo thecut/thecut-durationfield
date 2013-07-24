@@ -5,65 +5,45 @@ representation as string and time delta object.
 import datetime
 import isodate
 from isodate.isoerror import ISO8601Error
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 
-def isodate_to_relativedelta(value):
+def convert_relativedelta_to_duration(delta):
+    """Convert a :py:class:`~datetime.relativedelta.relativedelta` to a
+    :py:class:`~isodate.duration.Duration`."""
+
+    duration = isodate.duration.Duration(days=delta.days,
+        seconds=delta.seconds, microseconds=delta.microseconds,
+        minutes=delta.minutes, hours=delta.hours, months=delta.months,
+        years=delta.years)
+    return duration
+
+
+def convert_duration_to_relativedelta(duration):
+    """Convert a :py:class:`~isodate.duration.Duration` to a
+    :py:class:`~datetime.relativedelta.relativedelta`.
+
+    Note that we lose some accuracy in this conversion. Partial values for
+    years and months are cast into integers before applying them to the
+    relativedelta.
     """
-    Accepts `string` or :py:class:`isodate.duration.Duration`
-    Returns :py:class:`dateutil.relativedelta.relativedelta`
+    delta = relativedelta()
 
-    :py:class:`isodate.duration.Duration` is a super-set of
-    `datetime.timedelta`.
+    # Convert years and months to integers before setting them on the
+    # relativdelta instance. This allows us to perform arithmetic with the
+    # resulting relativeldelta in combination with a datetime. See
+    # https://bugs.launchpad.net/dateutil/+bug/1204017 for a description of the
+    # bug which makes this workaround necessary.
+    if hasattr(duration, 'years'):
+        delta.years = int(duration.years)
 
-    attributes:
-    {'tdelta': datetime.timedelta(),
-     'months': 0.0,
-     'years': 0.0'}
+    if hasattr(duration, 'months'):
+        delta.months = int(duration.months)
 
-    `datetime.timedelta()` attributes:
-    {'days',
-     'seconds',
-     'microseconds'}
+    if hasattr(duration, 'days'):
+        delta.days = duration.days#int(duration.days)
 
-    `datetime.timedelta` is returned by the function `isodate.parse_duration()`
-    should duration string be sufficiently simple.
+    if hasattr(duration, 'tdelta'):
+        delta.seconds = duration.tdelta.seconds
+        delta.microseconds = duration.tdelta.microseconds
 
-    In the more complicated case (ie duration is greater than days) an
-    `isodate.duration.Duration` object is returned.
-
-    """
-
-    if isinstance(value, basestring):
-        try:
-            isodate_to_convert = isodate.parse_duration(value)
-        except ISO8601Error:
-            """
-            ISO8601 duration representation must be passed in to function, if not
-            go shall not be passed.
-            """
-            raise
-    else:
-        """ Should `value` not be a string type is duck.
-        """
-        isodate_to_convert = value
-
-    new_rdelta = relativedelta.relativedelta()
-
-    try:
-        """ Should :py:class:isodate.duration.Duration be greater than
-        seconds/minutes it has addition months/years as well as
-        """
-        datetime_to_convert = isodate_to_convert.tdelta
-        new_rdelta.months = isodate_to_convert.months
-        new_rdelta.years = isodate_to_convert.years
-    except AttributeError:
-        """ Should :py:class:`isodate.duration.Duration` not have tdelta
-        attribute :py:type:`datetime.timedelta` is returned.
-        """
-        datetime_to_convert = isodate_to_convert
-
-    new_rdelta.days = datetime_to_convert.days
-    new_rdelta.seconds = datetime_to_convert.seconds
-    new_rdelta.microseconds = datetime_to_convert.microseconds
-
-    return new_rdelta
+    return delta

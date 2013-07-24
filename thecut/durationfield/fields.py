@@ -5,9 +5,13 @@ from django.db.models import Field, SubfieldBase
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
+from django.forms.widgets import TextInput
+from django import forms
 from isodate.isoerror import ISO8601Error
 import isodate
 from isodate import duration_isoformat
+
+from . import utils
 
 try:
     from south.modelsinspector import add_introspection_rules
@@ -79,12 +83,43 @@ class ISO8601DurationField(Field):
         return self.get_prep_value(value)
 
 
+class RelativeDeltaWidget(TextInput):
+
+    def _format_value(self, value):
+
+        if isinstance(value, relativedelta):
+            duration = utils.convert_relativedelta_to_duration(value)
+            value = isodate.duration_isoformat(duration)
+
+        return value
+
+    def render(self, name, value, attrs=None):
+        value = self._format_value(value)
+        return super(RelativeDeltaWidget, self).render(name, value, attrs)
+
+    def _has_changed(self, initial, data):
+        return super(RelativeDeltaWidget, self)._has_changed(
+            self._format_value(initial), data)
+
+
+
+
+class RelativeDeltaFormField(forms.Field):
+
+    widget = RelativeDeltaWidget
+
+
 class RelativeDeltaField(ISO8601DurationField):
     """Store and retrieve :py:class:`~datetime.relativedelta.relativedelta`.
 
     Stores the relativedelta as a string representation of a
     :py:class:`~isodate.duration.Duration`.
     """
+
+    def formfield(self, **kwargs):
+        defaults = {'form_class': RelativeDeltaFormField}
+        defaults.update(kwargs)
+        return super(RelativeDeltaField, self).formfield(**defaults)
 
     def to_python(self, value):
 
@@ -97,7 +132,7 @@ class RelativeDeltaField(ISO8601DurationField):
 
         duration = super(RelativeDeltaField, self).to_python(value)
 
-        delta = self.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
 
         return delta
 
@@ -108,39 +143,15 @@ class RelativeDeltaField(ISO8601DurationField):
             return None
 
         # Build the Duration object from the given relativedelta.
-        duration = self.convert_relativedelta_to_duration(value)
+        duration = utils.convert_relativedelta_to_duration(value)
         duration_string = super(RelativeDeltaField, self).get_prep_value(duration)
+
         return duration_string
 
-    def convert_relativedelta_to_duration(self, delta):
-        """Convert a :py:class:`~datetime.relativedelta.relativedelta` to a
-        :py:class:`~isodate.duration.Duration`."""
-
-        duration = isodate.duration.Duration(days=delta.days,
-            seconds=delta.seconds, microseconds=delta.microseconds,
-            minutes=delta.minutes, hours=delta.hours, months=delta.months,
-            years=delta.years)
-        return duration
-
-    def convert_duration_to_relativedelta(self, duration):
-        """Convert a :py:class:`~isodate.duration.Duration` to a
-        :py:class:`~datetime.relativedelta.relativedelta`."""
-        delta = relativedelta()
-
-        if hasattr(duration, 'years'):
-            delta.years = int(duration.years)
-
-        if hasattr(duration, 'months'):
-            delta.months = int(duration.months)
-
-        if hasattr(duration, 'days'):
-            delta.days = int(duration.days)
-
-        if hasattr(duration, 'tdelta'):
-            delta.seconds = duration.tdelta.seconds
-            delta.microseconds = duration.tdelta.microseconds
-
-        return delta
+    def value_to_string(self, obj):
+        val = self._get_val_from_obj(obj)
+        s = self.get_prep_value(val)
+        return '' if s is None else s
 
 if add_introspection_rules:
     add_introspection_rules([], ["^thecut\.durationfield\.fields"])

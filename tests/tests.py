@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 import isodate
 from mock import Mock
 from thecut.durationfield import fields
+from thecut.durationfield import utils
 from unittest import TestCase
 
 
@@ -71,59 +72,59 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(self.field.get_prep_value(None), None)
 
     def test_converts_given_relativedelta_to_a_duration(self):
-        self.field.convert_relativedelta_to_duration = Mock(return_value=isodate.parse_duration('P1M'))
+        utils.convert_relativedelta_to_duration = Mock(return_value=isodate.parse_duration('P1M'))
         delta = relativedelta(months=1)
         self.field.get_prep_value(delta)
 
-        self.assertTrue(self.field.convert_relativedelta_to_duration.called)
-        self.assertTrue(self.field.convert_relativedelta_to_duration.called_with(delta))
+        self.assertTrue(utils.convert_relativedelta_to_duration.called)
+        self.assertTrue(utils.convert_relativedelta_to_duration.called_with(delta))
 
     def test_can_convert_relativedelta_months(self):
         delta = relativedelta(months=1)
         duration = isodate.duration.Duration(months=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_days(self):
         delta = relativedelta(days=1)
         duration = isodate.duration.Duration(days=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_seconds(self):
         delta = relativedelta(seconds=1)
         duration = isodate.duration.Duration(seconds=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_microseconds(self):
         delta = relativedelta(microseconds=1)
         duration = isodate.duration.Duration(microseconds=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_minutes(self):
         delta = relativedelta(minutes=1)
         duration = isodate.duration.Duration(minutes=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_hours(self):
         delta = relativedelta(hours=1)
         duration = isodate.duration.Duration(hours=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_months(self):
         delta = relativedelta(months=1)
         duration = isodate.duration.Duration(months=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_can_convert_relativedelta_years(self):
         delta = relativedelta(years=1)
         duration = isodate.duration.Duration(years=1)
-        self.assertEqual(self.field.convert_relativedelta_to_duration(delta),
+        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
     def test_converts_given_complex_relativedelta_to_a_duration(self):
@@ -132,48 +133,48 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(duration_string, 'P1M2D')
 
     def test_converts_given_duration_to_relativedelta(self):
-        self.field.convert_duration_to_relativedelta = Mock(return_value=relativedelta())
+        utils.convert_duration_to_relativedelta = Mock(return_value=relativedelta())
         self.field.to_python('P1M')
-        self.assertTrue(self.field.convert_duration_to_relativedelta.called)
+        self.assertTrue(utils.convert_duration_to_relativedelta.called)
 
     def test_can_convert_duration_years(self):
         duration = isodate.duration.Duration(years=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.years, 1)
 
     def test_can_convert_duration_months(self):
         duration = isodate.duration.Duration(months=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.months, 1)
 
     def test_can_convert_duration_weeks(self):
         duration = isodate.duration.Duration(weeks=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.days, 7)
 
     def test_can_convert_duration_days(self):
         duration = isodate.duration.Duration(days=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.days, 1)
 
     def test_can_convert_duration_hours(self):
         duration = isodate.duration.Duration(hours=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.seconds, 60*60)
 
     def test_can_convert_duration_minutes(self):
         duration = isodate.duration.Duration(minutes=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.seconds, 60)
 
     def test_can_convert_duration_seconds(self):
         duration = isodate.duration.Duration(seconds=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.seconds, 1)
 
     def test_can_convert_duration_microseconds(self):
         duration = isodate.duration.Duration(microseconds=1)
-        delta = self.field.convert_duration_to_relativedelta(duration)
+        delta = utils.convert_duration_to_relativedelta(duration)
         self.assertEqual(delta.microseconds, 1)
 
     def test_to_python_returns_relativedelta_if_given_a_relativedelta(self):
@@ -189,7 +190,7 @@ class TestRelativeDeltaField(TestCase):
         # error from deep inside relativedelta.
 
         duration = isodate.duration.Duration(months=1.5)
-        one_and_a_half_months = self.field.convert_duration_to_relativedelta(duration)
+        one_and_a_half_months = utils.convert_duration_to_relativedelta(duration)
         january_first = datetime(2013, 1, 1)
         february_first = datetime(2013, 2, 1)
         self.assertEqual(january_first + one_and_a_half_months, february_first)
@@ -203,7 +204,7 @@ class TestRelativeDeltaField(TestCase):
         # error from deep inside relativedelta.
 
         duration = isodate.duration.Duration(years=1.5)
-        one_and_a_half_years = self.field.convert_duration_to_relativedelta(duration)
+        one_and_a_half_years = utils.convert_duration_to_relativedelta(duration)
         january_first = datetime(2013, 1, 1)
         self.assertEqual(january_first + one_and_a_half_years, datetime(2014, 1, 1))
 
@@ -216,6 +217,14 @@ class TestRelativeDeltaField(TestCase):
         # error from deep inside relativedelta.
 
         duration = isodate.duration.Duration(days=1.5)
-        one_and_a_half_days = self.field.convert_duration_to_relativedelta(duration)
+        one_and_a_half_days = utils.convert_duration_to_relativedelta(duration)
+        self.assertEqual(one_and_a_half_days.days, 1)
+
         january_first = datetime(2013, 1, 1)
+        print january_first, one_and_a_half_days
         self.assertEqual(january_first + one_and_a_half_days, datetime(2013, 1, 2))
+
+    # def test_can_parse_own_text_output(self):
+
+    #     duration = isodate.parse_duration('P1M')
+    #     self.assertEqual('P1.0M', self.field.get_prep_value(duration))
