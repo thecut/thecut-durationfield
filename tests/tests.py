@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 from django.core.exceptions import ValidationError
 import isodate
 from mock import Mock
@@ -178,3 +179,43 @@ class TestRelativeDeltaField(TestCase):
     def test_to_python_returns_relativedelta_if_given_a_relativedelta(self):
         delta = relativedelta(days=1)
         self.assertEqual(type(delta), type(self.field.to_python(delta)))
+
+    def test_can_add_a_relative_delta_for_a_partial_month_to_a_datetime(self):
+        # A relativdelta with a non-integer value for month/year/week/days
+        # cannot be added to a datetime (see
+        # https://bugs.launchpad.net/dateutil/+bug/1204017). So we need to
+        # manually cast these to be integers. We won't be getting back exactly
+        # what we expect, but it's probably better than propograting a type
+        # error from deep inside relativedelta.
+
+        duration = isodate.duration.Duration(months=1.5)
+        one_and_a_half_months = self.field.convert_duration_to_relativedelta(duration)
+        january_first = datetime(2013, 1, 1)
+        february_first = datetime(2013, 2, 1)
+        self.assertEqual(january_first + one_and_a_half_months, february_first)
+
+    def test_can_add_a_relative_delta_for_a_partial_year_to_a_datetime(self):
+        # A relativdelta with a non-integer value for month/year/week/days
+        # cannot be added to a datetime (see
+        # https://bugs.launchpad.net/dateutil/+bug/1204017). So we need to
+        # manually cast these to be integers. We won't be getting back exactly
+        # what we expect, but it's probably better than propograting a type
+        # error from deep inside relativedelta.
+
+        duration = isodate.duration.Duration(years=1.5)
+        one_and_a_half_years = self.field.convert_duration_to_relativedelta(duration)
+        january_first = datetime(2013, 1, 1)
+        self.assertEqual(january_first + one_and_a_half_years, datetime(2014, 1, 1))
+
+    def test_can_add_a_relative_delta_for_a_partial_day_to_a_datetime(self):
+        # A relativdelta with a non-integer value for month/year/week/days
+        # cannot be added to a datetime (see
+        # https://bugs.launchpad.net/dateutil/+bug/1204017). So we need to
+        # manually cast these to be integers. We won't be getting back exactly
+        # what we expect, but it's probably better than propograting a type
+        # error from deep inside relativedelta.
+
+        duration = isodate.duration.Duration(days=1.5)
+        one_and_a_half_days = self.field.convert_duration_to_relativedelta(duration)
+        january_first = datetime(2013, 1, 1)
+        self.assertEqual(january_first + one_and_a_half_days, datetime(2013, 1, 2))

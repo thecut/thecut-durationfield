@@ -128,17 +128,17 @@ class RelativeDeltaField(ISO8601DurationField):
         delta = relativedelta()
 
         if hasattr(duration, 'years'):
-           delta.years = duration.years
+            delta.years = int(duration.years)
 
         if hasattr(duration, 'months'):
-            delta.months = duration.months
+            delta.months = int(duration.months)
 
         if hasattr(duration, 'days'):
-            delta.days=duration.days
+            delta.days = int(duration.days)
 
         if hasattr(duration, 'tdelta'):
-            delta.seconds=duration.tdelta.seconds
-            delta.microseconds=duration.tdelta.microseconds
+            delta.seconds = duration.tdelta.seconds
+            delta.microseconds = duration.tdelta.microseconds
 
         return delta
 
