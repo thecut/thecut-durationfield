@@ -126,4 +126,5 @@ class RelativeDeltaField(ISO8601DurationField):
         return '' if s is None else s
 
 if add_introspection_rules:
-    add_introspection_rules([], ["^thecut\.durationfield\.fields"])
+    add_introspection_rules([], ['^thecut\.durationfield\.models\.ISO8601DurationField',
+                                 '^thecut\.durationfield\.models\.RelativeDeltaField'])
