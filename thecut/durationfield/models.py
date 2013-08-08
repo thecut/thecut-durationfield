@@ -8,7 +8,7 @@ from isodate.isoerror import ISO8601Error
 import isodate
 from dateutil.relativedelta import relativedelta
 from . import utils
-from .forms import RelativeDeltaFormField
+from . import forms
 
 
 try:
@@ -89,7 +89,7 @@ class RelativeDeltaField(ISO8601DurationField):
     """
 
     def formfield(self, **kwargs):
-        defaults = {'form_class': RelativeDeltaFormField}
+        defaults = {'form_class': forms.RelativeDeltaField}
         defaults.update(kwargs)
         return super(RelativeDeltaField, self).formfield(**defaults)
 
