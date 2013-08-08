@@ -89,7 +89,7 @@ class RelativeDeltaField(ISO8601DurationField):
     """
 
     def formfield(self, **kwargs):
-        defaults = {'form_class': forms.RelativeDeltaField}
+        defaults = {'form_class': forms.RelativeDeltaChoiceField}
         defaults.update(kwargs)
         return super(RelativeDeltaField, self).formfield(**defaults)
 
