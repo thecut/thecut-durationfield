@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from isodate.isoerror import ISO8601Error
 import isodate
@@ -17,7 +16,6 @@ except ImportError:
     add_introspection_rules = None
 
 
-@python_2_unicode_compatible
 class ISO8601DurationField(models.Field):
     """Store and retrieve ISO 8601 formatted durations.
 
