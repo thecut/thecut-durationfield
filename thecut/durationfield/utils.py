@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-""" Utility functions to convert back and forth between a ISO 8601
-representation as string and time delta object.
-"""
-import datetime
-import isodate
-from isodate.isoerror import ISO8601Error
+"""Utility functions to convert back and forth between a ISO 8601
+representation as string and time delta object."""
 from dateutil.relativedelta import relativedelta
+import isodate
+
 
 def convert_relativedelta_to_duration(delta):
     """Convert a :py:class:`~datetime.relativedelta.relativedelta` to a
     :py:class:`~isodate.duration.Duration`."""
 
-    duration = isodate.duration.Duration(days=delta.days,
-        seconds=delta.seconds, microseconds=delta.microseconds,
-        minutes=delta.minutes, hours=delta.hours, months=delta.months,
-        years=delta.years)
+    duration = isodate.duration.Duration(
+        days=delta.days, seconds=delta.seconds,
+        microseconds=delta.microseconds, minutes=delta.minutes,
+        hours=delta.hours, months=delta.months, years=delta.years)
     return duration
 
 
