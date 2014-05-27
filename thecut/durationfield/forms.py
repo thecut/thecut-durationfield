@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.forms import Field, ChoiceField
 from . import widgets
+from django.forms import Field, ChoiceField
 
 
 class RelativeDeltaChoiceField(ChoiceField):

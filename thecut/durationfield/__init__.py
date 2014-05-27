@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Create new django model field (extended CharField) to accept ISO 8601 defined
-representation.
+"""Create new django model field (extended CharField) to accept ISO 8601
+defined representation.
 
 http://en.wikipedia.org/wiki/ISO_8601#Durations
 

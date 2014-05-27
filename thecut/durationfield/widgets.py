@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from . import utils
+from dateutil.relativedelta import relativedelta
 from django.forms.widgets import TextInput, Select
 from isodate import duration_isoformat
-from dateutil.relativedelta import relativedelta
-from . import utils
 
 
 class RelativeDeltaWidgetMixin(object):
@@ -19,7 +19,8 @@ class RelativeDeltaWidgetMixin(object):
     def render(self, name, value, **kwargs):
 
         value = self._format_value(value)
-        return super(RelativeDeltaWidgetMixin, self).render(name, value, **kwargs)
+        return super(RelativeDeltaWidgetMixin, self).render(
+            name, value, **kwargs)
 
     def _has_changed(self, initial, data):
         return super(RelativeDeltaWidgetMixin, self)._has_changed(
