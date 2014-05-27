@@ -48,7 +48,7 @@ class ISO8601DurationField(models.Field):
 
         # DB value is empty
         if value == '':
-            return isodate.duration.Duration()
+            return None
 
         if isinstance(value, isodate.duration.Duration):
             return value

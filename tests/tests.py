@@ -24,10 +24,9 @@ class TestISO8061DurationField(TestCase):
 
         self.assertEqual(None, self.field.to_python(None))
 
-    def test_to_python_returns_a_duration_when_given_an_empty_string(self):
+    def test_to_python_returns_none_when_given_an_empty_string(self):
 
-        self.assertEqual(isodate.duration.Duration,
-                         type(self.field.to_python('')))
+        self.assertEqual(None, self.field.to_python(''))
 
     def test_to_python_returns_a_duration_when_given_a_validly_formatted_string(self):
 
