@@ -1,3 +1,6 @@
 *.py[co]
 .Python
 .DS_Store
+.tox
+RELEASE-VERSION
+*.egg-info
