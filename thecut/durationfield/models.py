@@ -48,7 +48,7 @@ class ISO8601DurationField(models.Field):
 
         # DB value is empty
         if value == '':
-            return isodate.duration.Duration()
+            return None
 
         if isinstance(value, isodate.duration.Duration):
             return value
@@ -90,18 +90,13 @@ class RelativeDeltaField(ISO8601DurationField):
 
     def to_python(self, value):
 
-        # DB value is null
-        if value is None:
-            return None
-
         if isinstance(value, relativedelta):
             return value
 
         duration = super(RelativeDeltaField, self).to_python(value)
 
-        delta = utils.convert_duration_to_relativedelta(duration)
-
-        return delta
+        if duration:
+            return utils.convert_duration_to_relativedelta(duration)
 
     def get_prep_value(self, value):
 

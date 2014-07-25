@@ -5,8 +5,8 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 import isodate
 from mock import Mock
-from thecut.durationfield import models
-from thecut.durationfield import utils
+from .. import models
+from .. import utils
 from unittest import TestCase
 
 
@@ -24,10 +24,9 @@ class TestISO8061DurationField(TestCase):
 
         self.assertEqual(None, self.field.to_python(None))
 
-    def test_to_python_returns_a_duration_when_given_an_empty_string(self):
+    def test_to_python_returns_none_when_given_an_empty_string(self):
 
-        self.assertEqual(isodate.duration.Duration,
-                         type(self.field.to_python('')))
+        self.assertEqual(None, self.field.to_python(''))
 
     def test_to_python_returns_a_duration_when_given_a_validly_formatted_string(self):
 
@@ -61,6 +60,9 @@ class TestRelativeDeltaField(TestCase):
 
         d = relativedelta()
         self.assertEqual(type(d), type(self.field.to_python('P1M')))
+
+    def test_returns_none_if_given_an_empty_string(self):
+        self.assertEqual(None, self.field.to_python(''))
 
     def test_returns_an_iso8601_formatted_string(self):
         # Given a timedelta, get_prep_value should return a value suitable for
@@ -112,12 +114,6 @@ class TestRelativeDeltaField(TestCase):
     def test_can_convert_relativedelta_hours(self):
         delta = relativedelta(hours=1)
         duration = isodate.duration.Duration(hours=1)
-        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
-                         duration)
-
-    def test_can_convert_relativedelta_months(self):
-        delta = relativedelta(months=1)
-        duration = isodate.duration.Duration(months=1)
         self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 

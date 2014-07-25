@@ -1,9 +1,6 @@
 *.py[co]
 .Python
 .DS_Store
-
-# virtualenv
-bin/*
-include/*
-lib/*
-local/*
+.tox
+RELEASE-VERSION
+*.egg-info

@@ -1,37 +1,53 @@
-#!/usr/bin/env python
+import sys
 
-import os, sys
+try:
+    from django.conf import settings
 
-from django.conf import settings
-
-
-if not settings.configured:
-    settings_dict = dict(
-        INSTALLED_APPS=(
-            'tests',
-            ),
+    settings.configure(
+        DEBUG=True,
+        USE_TZ=True,
         DATABASES={
             "default": {
-                "ENGINE": "django.db.backends.sqlite3"
-                }
-            },
-        )
+                "ENGINE": "django.db.backends.sqlite3",
+            }
+        },
+        ROOT_URLCONF="thecut.durationfield.urls",
+        INSTALLED_APPS=[
+            "django.contrib.auth",
+            "django.contrib.contenttypes",
+            "django.contrib.sites",
+            "thecut.durationfield",
+            "test_app",
+        ],
+        SITE_ID=1,
+        NOSE_ARGS=['-s'],
+    )
 
-    settings.configure(**settings_dict)
+    try:
+        import django
+        setup = django.setup
+    except AttributeError:
+        pass
+    else:
+        setup()
+
+    from django_nose import NoseTestSuiteRunner
+except ImportError:
+    raise ImportError("To fix this error, run: pip install -r requirements-test.txt")
 
 
-def runtests(*test_args):
+def run_tests(*test_args):
     if not test_args:
-        test_args = ['tests']
+        test_args = ['thecut/durationfield/tests']
 
-    parent = os.path.dirname(os.path.abspath(__file__))
-    sys.path.insert(0, parent)
+    # Run tests
+    test_runner = NoseTestSuiteRunner(verbosity=1)
 
-    from django.test.simple import DjangoTestSuiteRunner
-    failures = DjangoTestSuiteRunner(
-        verbosity=1, interactive=True, failfast=False).run_tests(test_args)
-    sys.exit(failures)
+    failures = test_runner.run_tests(test_args)
+
+    if failures:
+        sys.exit(failures)
 
 
 if __name__ == '__main__':
-    runtests()
+    run_tests(*sys.argv[1:])
