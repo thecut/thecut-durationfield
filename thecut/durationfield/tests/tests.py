@@ -5,8 +5,8 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 import isodate
 from mock import Mock
-from thecut.durationfield import models
-from thecut.durationfield import utils
+from .. import models
+from .. import utils
 from unittest import TestCase
 
 
