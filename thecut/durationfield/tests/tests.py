@@ -61,6 +61,9 @@ class TestRelativeDeltaField(TestCase):
         d = relativedelta()
         self.assertEqual(type(d), type(self.field.to_python('P1M')))
 
+    def test_returns_none_if_given_an_empty_string(self):
+        self.assertEqual(None, self.field.to_python(''))
+
     def test_returns_an_iso8601_formatted_string(self):
         # Given a timedelta, get_prep_value should return a value suitable for
         # saving to the db. Specifically, an ISO8601 formatted duration.
