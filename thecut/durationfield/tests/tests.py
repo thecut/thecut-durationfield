@@ -117,12 +117,6 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(utils.convert_relativedelta_to_duration(delta),
                          duration)
 
-    def test_can_convert_relativedelta_months(self):
-        delta = relativedelta(months=1)
-        duration = isodate.duration.Duration(months=1)
-        self.assertEqual(utils.convert_relativedelta_to_duration(delta),
-                         duration)
-
     def test_can_convert_relativedelta_years(self):
         delta = relativedelta(years=1)
         duration = isodate.duration.Duration(years=1)
