@@ -15,8 +15,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'isodate == 0.4.9',
-        'python-dateutil == 2.1'
+        'isodate >= 0.5',
+        'python-dateutil >= 2.2'
+    ],
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
