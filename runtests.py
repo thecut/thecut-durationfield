@@ -17,7 +17,6 @@ try:
             "django.contrib.contenttypes",
             "django.contrib.sites",
             "thecut.durationfield",
-            "test_app",
         ],
         SITE_ID=1,
         NOSE_ARGS=['-s'],
@@ -38,10 +37,19 @@ except ImportError:
 
 def run_tests(*test_args):
     if not test_args:
-        test_args = ['thecut/durationfield/tests']
+        test_args = ['thecut.durationfield.tests.tests']
 
-    # Run tests
-    test_runner = NoseTestSuiteRunner(verbosity=1)
+    # Nose and/or django-nose seems to have some problems with Django 1.7, so
+    # we'll use Django's own test runner if it's available. If not, we'll use
+    # Nose instead, which is easier than trying to get Django's old test runner
+    # to work for us.
+    try:
+        from django.test.runner import DiscoverRunner
+        test_runner = DiscoverRunner()
+
+    except ImportError:
+        from django_nose import NoseTestSuiteRunner
+        test_runner = NoseTestSuiteRunner(verbosity=1)
 
     failures = test_runner.run_tests(test_args)
 

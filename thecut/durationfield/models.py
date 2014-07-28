@@ -36,6 +36,12 @@ class ISO8601DurationField(models.Field):
     def get_internal_type(self):
         return 'CharField'
 
+    def deconstruct(self, *args, **kwargs):
+        name, path, args, kwargs = super(ISO8601DurationField,
+                                         self).deconstruct()
+        del kwargs['max_length']
+        return name, path, args, kwargs
+
     def to_python(self, value):
         """
         :returns: A duration object parsed from the given value.

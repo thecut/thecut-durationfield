@@ -48,6 +48,9 @@ class TestISO8061DurationField(TestCase):
     def test_get_prep_value_is_isomorphic(self):
 
         duration = isodate.parse_duration('P1M')
+        self.assertEqual('P1M', self.field.get_prep_value(duration))
+
+        duration = isodate.parse_duration('P1.0M')
         self.assertEqual('P1.0M', self.field.get_prep_value(duration))
 
 
@@ -68,7 +71,7 @@ class TestRelativeDeltaField(TestCase):
         # Given a timedelta, get_prep_value should return a value suitable for
         # saving to the db. Specifically, an ISO8601 formatted duration.
         duration = relativedelta(months=1.0)
-        self.assertEqual(self.field.get_prep_value(duration), 'P1.0M')
+        self.assertEqual(self.field.get_prep_value(duration), 'P1M')
 
     def test_converts_none_to_none(self):
         self.assertEqual(self.field.get_prep_value(None), None)
