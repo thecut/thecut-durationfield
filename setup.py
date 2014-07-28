@@ -1,5 +1,17 @@
 from setuptools import setup, find_packages
 from thecut.durationfield import __title__, __url__, __version__
+import io
+
+def read(*filenames, **kwargs):
+    encoding = kwargs.get('encoding', 'utf-8')
+    sep = kwargs.get('sep', '\n')
+    buf = []
+    for filename in filenames:
+        with io.open(filename, encoding=encoding) as f:
+            buf.append(f.read())
+    return sep.join(buf)
+
+long_description = read('README.rst', 'CHANGES.rst')
 
 setup(
     name=__title__,
@@ -10,6 +22,7 @@ setup(
         'Form and model fields for storing durations on Django models'
         'as ISO 8601 compliant strings, and returning relativedelta objects.'
     ),
+    long_description=long_description,
     namespace_packages=['thecut'],
     version=__version__,
     packages=find_packages(),
