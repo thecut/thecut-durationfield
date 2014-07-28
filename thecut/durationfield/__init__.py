@@ -1,36 +1,26 @@
 # -*- coding: utf-8 -*-
-"""Create new django model field (extended CharField) to accept ISO 8601
-defined representation.
+#
+# Copyright 2014 Busara Perth Pty Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-http://en.wikipedia.org/wiki/ISO_8601#Durations
 
-P is the duration designator (historically called "period") placed at the start
-of the duration representation.
----
-Y is the year designator that follows the value for the number of years.
-M is the month designator that follows the value for the number of months.
-W is the week designator that follows the value for the number of weeks.
-D is the day designator that follows the value for the number of days.
----
-T is the time designator that precedes the time components of the
-  representation.
-H is the hour designator that follows the value for the number of hours.
-M is the minute designator that follows the value for the number of minutes.
-S is the second designator that follows the value for the number of seconds.
+from __future__ import unicode_literals
 
-Note: M-month and M-minute can cause ambiguity -- T designator is necessary for
-time values.
 
-Example:
-P1Y2M10DT2H30M
-1 years, 2 months, 10 days, 2:30:00
-
-Thses are then parsed[1] and converted to a python usable delta[2].
-
-Note isodate.parse_duration return either
-<type 'datetime.timedelta'> or <class 'isodate.duration.Duration'>
-depending on whether it's possible to convert the
-
-[1] isodate https://pypi.python.org/pypi/isodate
-[2] dateutil.relativedelta for consistency.
-"""
+__title__ = 'thecut-durationfield'
+__version__ = '1.0.6'
+__url__ = 'https://github.com/thecut/thecut-durationfield'
+__author__ = 'Josh Crompton <josh.crompton@thecut.net.au>'
+__copyright__ = 'Copyright 2014 Busara Perth Pty Ltd'
+__license__ = 'Apache 2.0'
