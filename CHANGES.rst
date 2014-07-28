@@ -2,8 +2,8 @@ CHANGES
 =======
 
 
-1.0.6 (TBD)
------------
+1.0.6 (2014-07-28)
+------------------
 
 * Fix an issue which caused an empty ``relativedelta`` to be returned for a
   database NULL value.
