@@ -23,8 +23,6 @@ class ISO8601DurationField(with_metaclass(models.SubfieldBase, models.Field)):
 
     description = _("A duration of time (ISO 8601 format)")
 
-    __metaclass__ = models.SubfieldBase
-
     default_error_messages = {
         'invalid': _("This value must be in ISO 8601 Duration format."),
         'unknown_type': _("The value's type could not be converted"),
