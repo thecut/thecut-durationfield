@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.utils.six import with_metaclass
 from isodate.isoerror import ISO8601Error
 import isodate
 
@@ -15,7 +16,7 @@ except ImportError:
     add_introspection_rules = None
 
 
-class ISO8601DurationField(models.Field):
+class ISO8601DurationField(with_metaclass(models.SubfieldBase, models.Field)):
     """Store and retrieve ISO 8601 formatted durations.
 
     """
