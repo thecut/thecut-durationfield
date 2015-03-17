@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 
 
 __title__ = 'thecut-durationfield'
-__version__ = '1.0.6'
+__version__ = '1.0.7'
 __url__ = 'https://github.com/thecut/thecut-durationfield'
 __author__ = 'Josh Crompton <josh.crompton@thecut.net.au>'
 __copyright__ = 'Copyright 2014 Busara Perth Pty Ltd'
