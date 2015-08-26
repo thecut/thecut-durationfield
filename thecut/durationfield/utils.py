@@ -17,7 +17,8 @@ def convert_relativedelta_to_duration(delta):
 
 
 def convert_duration_to_relativedelta(duration):
-    """Convert a :py:class:`~isodate.duration.Duration` to a
+    """Convert a :py:class:`~isodate.duration.Duration` or a
+    :py:class:`~datetime.timedelta` to a
     :py:class:`~datetime.relativedelta.relativedelta`.
 
     Note that we lose some accuracy in this conversion. Partial values for
@@ -40,8 +41,17 @@ def convert_duration_to_relativedelta(duration):
     if hasattr(duration, 'days'):
         delta.days = duration.days
 
+    # Some `Duration` objects have an associated timedelta.
     if hasattr(duration, 'tdelta'):
         delta.seconds = duration.tdelta.seconds
         delta.microseconds = duration.tdelta.microseconds
+
+    # If we have a `timedelta`, we access the seconds and microseconds values
+    # directly.
+    if hasattr(duration, 'seconds'):
+        delta.seconds = int(duration.seconds)
+
+    if hasattr(duration, 'microseconds'):
+        delta.microseconds = int(duration.microseconds)
 
     return delta
