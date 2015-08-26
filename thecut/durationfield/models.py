@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from . import forms, utils
+from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -55,7 +56,7 @@ class ISO8601DurationField(with_metaclass(models.SubfieldBase, models.Field)):
         if value == '':
             return None
 
-        if isinstance(value, isodate.duration.Duration):
+        if isinstance(value, isodate.duration.Duration) or isinstance(value, timedelta):
             return value
 
         try:
@@ -65,7 +66,6 @@ class ISO8601DurationField(with_metaclass(models.SubfieldBase, models.Field)):
         return duration
 
     def get_prep_value(self, value):
-
         # Value in DB should be null.
         if value is None:
             return None
@@ -94,7 +94,6 @@ class RelativeDeltaField(ISO8601DurationField):
         return super(RelativeDeltaField, self).formfield(**defaults)
 
     def to_python(self, value):
-
         if isinstance(value, relativedelta):
             return value
 
@@ -104,7 +103,6 @@ class RelativeDeltaField(ISO8601DurationField):
             return utils.convert_duration_to_relativedelta(duration)
 
     def get_prep_value(self, value):
-
         # Value in DB should be null
         if value is None:
             return None
