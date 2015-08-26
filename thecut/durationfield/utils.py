@@ -49,9 +49,9 @@ def convert_duration_to_relativedelta(duration):
     # If we have a `timedelta`, we access the seconds and microseconds values
     # directly.
     if hasattr(duration, 'seconds'):
-        delta.seconds = int(duration.seconds)
+        delta.seconds = duration.seconds
 
     if hasattr(duration, 'microseconds'):
-        delta.microseconds = int(duration.microseconds)
+        delta.microseconds = duration.microseconds
 
     return delta
