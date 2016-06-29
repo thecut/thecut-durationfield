@@ -14,4 +14,6 @@ Contents:
    readme
    installation
    usage
+   testing
+   history
    authors
