@@ -5,6 +5,6 @@ from django import apps
 
 class AppConfig(apps.AppConfig):
 
-    label = 'example'
+    label = 'exampleapp'
 
-    name = 'thecut.example'
+    name = 'thecut.exampleapp'

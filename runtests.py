@@ -17,7 +17,7 @@ try:
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sites",
-            "thecut.example",
+            "thecut.exampleapp",
             "test_app",
         ],
         SITE_ID=1,
@@ -41,7 +41,7 @@ except ImportError:
 
 def run_tests(*test_args):
     if not test_args:
-        test_args = ['thecut.example.tests']
+        test_args = ['thecut.exampleapp.tests']
 
     # Run tests
     TestRunner = get_runner(settings)
