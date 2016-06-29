@@ -13,4 +13,5 @@ Contents:
 
    readme
    installation
+   usage
    authors
