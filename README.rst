@@ -1,5 +1,5 @@
 =================
-thecut.example
+thecut.exampleapp
 =================
 
 A reusable application.
@@ -8,15 +8,15 @@ A reusable application.
 Adding this application to your project
 ---------------------------------------
 
-1. Add ``thecut-example`` to your project's requirements file::
+1. Add ``thecut-exampleapp`` to your project's requirements file::
 
-    $ echo 'thecut-example' >> requirements.txt
+    $ echo 'thecut-exampleapp' >> requirements.txt
 
-2. Add ``thecut.example`` to your project's ``INSTALLED_APPS``::
+2. Add ``thecut.exampleapp`` to your project's ``INSTALLED_APPS``::
 
     INSTALLED_APPS = [
         # ...
-        'thecut.example'
+        'thecut.exampleapp'
     ]
 
 3. Run any app migrations::
@@ -33,24 +33,24 @@ Testing this application manually
 
 2. Create and activate a ``virtualenv``::
 
-    $ cd thecut-example
+    $ cd thecut-exampleapp
     $ virtualenv .
     $ source bin/activate
-    (thecut-example) $
+    (thecut-exampleapp) $
 
 3. Install the test suite requirements::
 
-    (thecut-example) $ pip install -r requirements-test.txt
+    (thecut-exampleapp) $ pip install -r requirements-test.txt
 
 4. Run the test runner::
 
-    (thecut-example) $ python runtests.py
+    (thecut-exampleapp) $ python runtests.py
 
 
 Testing this application with tox
 ---------------------------------
 
-We can use tox to test thecut.example on a number of different Python and Django
+We can use tox to test thecut.exampleapp on a number of different Python and Django
 versions.
 
 Tox assumes that a number of different Python versions are available on your
@@ -64,18 +64,18 @@ versions that are used during testing.
 
 2. Create and activate a ``virtualenv``::
 
-    $ cd thecut-example
+    $ cd thecut-exampleapp
     $ virtualenv .
     $ source bin/activate
-    (thecut-example) $
+    (thecut-exampleapp) $
 
 3. Install ``tox``::
 
-    (thecut-example) $ pip install -r requirements-test.txt
+    (thecut-exampleapp) $ pip install -r requirements-test.txt
 
 4. Run ``tox``::
 
-    (thecut-example) $ tox --recreate
+    (thecut-exampleapp) $ tox --recreate
 
 
 Test coverage
@@ -83,4 +83,4 @@ Test coverage
 
 The included ``tox`` configuration automatically detects test code coverage with ``coverage``::
 
-      (thecut-example) $ coverage report
+      (thecut-exampleapp) $ coverage report

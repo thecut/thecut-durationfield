@@ -1,2 +1,2 @@
 include RELEASE-VERSION
-include README
+include README.rst
