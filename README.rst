@@ -12,5 +12,30 @@ Welcome to thecut-exampleapp
     :target: http://thecut-exampleapp.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-
 A reusable application.
+
+
+Documentation
+-------------
+
+The full documentation is at https://thecut-exampleapp.readthedocs.org.
+
+
+Quickstart
+----------
+
+Install thecut-exampleapp::
+
+    pip install thecut-exampleapp
+
+
+Features
+--------
+
+    * ...
+
+
+Credits
+-------
+
+See ``AUTHORS.rst`` for credits.
