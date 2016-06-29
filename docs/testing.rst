@@ -40,7 +40,7 @@ You can use ``virtualenv`` to test without polluting your system's Python enviro
 3. Follow 'Using your system's Python / Django' above.
 
 
-Testing this application with tox
+Using tox
 ---------------------------------
 
 You can use tox to automatically test the application on a number of different
