@@ -27,7 +27,7 @@ setup(
     version=__version__,
 
     # Packaging
-    packages=find_packages(),
+    packages=find_packages(exclude=['docs']),
     namespace_packages=['thecut'],
     include_package_data=True,
 
