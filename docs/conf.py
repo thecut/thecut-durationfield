@@ -66,17 +66,10 @@ author = u'The Cut Creative'
 #
 # The short X.Y version.
 
-try:
-    release = pkg_resources.get_distribution('thecut-exampleapp').version
-except pkg_resources.DistributionNotFound:
-    print 'To build the documentation, The distribution information of '
-    print 'thecut-exampleapp Has to be available.  Either install the package '
-    print 'into your development environment or run "setup.py develop" to '
-    print 'setup the metadata.  A virtualenv is recommended!'
-    sys.exit(1)
-del pkg_resources
 
-version = '.'.join(release.split('.')[:2])
+# version = '.'.join(release.split('.')[:2])
+from thecut import exampleapp
+version = exampleapp.__version__
 
 # The full version, including alpha/beta/rc tags.
 release = version
