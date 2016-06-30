@@ -34,11 +34,13 @@ setup(
     # Dependencies
     install_requires=['sphinx_rtd_theme>=0.1.10a0'],
 
+    # Author information
+    author='The Cut Creative',
+    author_email='development@thecut.net.au',
+
     # Additional information
     url='https://projects.thecut.net.au/projects/thecut-exampleapp',
     license='Apache Software License 2.0',
-    author='The Cut Creative',
-    author_email='development@thecut.net.au',
     description='A reusable application.',
     long_description=long_description,
     platforms='any',
