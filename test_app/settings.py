@@ -24,3 +24,16 @@ SITE_ID = 1
 SECRET_KEY = 'thecut'
 
 MIDDLEWARE_CLASSES = []  # silences dj1.7 warning
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'loaders': [
+                ('django.template.loaders.cached.Loader',
+                 ['django.template.loaders.filesystem.Loader',
+                  'django.template.loaders.app_directories.Loader'])
+            ],
+        },
+    },
+],

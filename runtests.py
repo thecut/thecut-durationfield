@@ -22,6 +22,18 @@ try:
         ],
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),
+        TEMPLATES=[
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'OPTIONS': {
+                    'loaders': [
+                        ('django.template.loaders.cached.Loader',
+                         ['django.template.loaders.filesystem.Loader',
+                          'django.template.loaders.app_directories.Loader'])
+                    ],
+                },
+            },
+        ],
     )
 
     try:
