@@ -16,6 +16,12 @@ Welcome to thecut-exampleapp
 A reusable application.
 
 
+Features
+--------
+
+    * ...
+
+
 Documentation
 -------------
 
@@ -28,12 +34,6 @@ Quickstart
 Install thecut-exampleapp::
 
     pip install thecut-exampleapp
-
-
-Features
---------
-
-    * ...
 
 
 Credits
