@@ -33,7 +33,7 @@ setup(
     include_package_data=True,
 
     # Dependencies
-    install_requires=['sphinx_rtd_theme>=0.1.10a0'],
+    install_requires=[],
 
     # Author information
     author='The Cut Creative',
