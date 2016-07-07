@@ -31,9 +31,7 @@ The full documentation is at https://thecut-exampleapp.readthedocs.org.
 Quickstart
 ----------
 
-Install thecut-exampleapp::
-
-    pip install thecut-exampleapp
+Install ``thecut-exampleapp`` using the :ref:`installation`.
 
 
 Credits
