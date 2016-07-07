@@ -39,4 +39,4 @@ Install thecut-exampleapp::
 Credits
 -------
 
-See ``AUTHORS.rst`` for credits.
+See :ref:`credits`.
