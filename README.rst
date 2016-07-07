@@ -16,6 +16,12 @@ Welcome to thecut-exampleapp
 A reusable application.
 
 
+Features
+--------
+
+    * ...
+
+
 Documentation
 -------------
 
@@ -25,18 +31,10 @@ The full documentation is at https://thecut-exampleapp.readthedocs.org.
 Quickstart
 ----------
 
-Install thecut-exampleapp::
-
-    pip install thecut-exampleapp
-
-
-Features
---------
-
-    * ...
+Install ``thecut-exampleapp`` using the :ref:`installation`.
 
 
 Credits
 -------
 
-See ``AUTHORS.rst`` for credits.
+See :ref:`credits`.

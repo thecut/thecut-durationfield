@@ -1,6 +1,6 @@
-=======
-Testing
-=======
+==================
+Running unit tests
+==================
 
 
 Using your system's Python / Django
