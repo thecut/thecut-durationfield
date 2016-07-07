@@ -19,8 +19,14 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-import pkg_resources
+import os
 import sys
+import pkg_resources
+import django
+
+# sys.path.insert(0, os.path.abspath('..'))   # NOQA
+os.environ["DJANGO_SETTINGS_MODULE"] = 'test_app.settings'
+django.setup()
 
 # -- General configuration ------------------------------------------------
 
