@@ -10,12 +10,6 @@ from isodate.isoerror import ISO8601Error
 import isodate
 
 
-try:
-    from south.modelsinspector import add_introspection_rules
-except ImportError:
-    add_introspection_rules = None
-
-
 class ISO8601DurationField(models.Field):
     """Store and retrieve ISO 8601 formatted durations.
 
@@ -117,8 +111,3 @@ class RelativeDeltaField(ISO8601DurationField):
         val = self._get_val_from_obj(obj)
         s = self.get_prep_value(val)
         return '' if s is None else s
-
-if add_introspection_rules:
-    add_introspection_rules(
-        [], ['^thecut\.durationfield\.models\.ISO8601DurationField',
-             '^thecut\.durationfield\.models\.RelativeDeltaField'])
