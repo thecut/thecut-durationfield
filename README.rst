@@ -41,7 +41,7 @@ The full documentation is at https://thecut-durationfield.readthedocs.org.
 Quickstart
 ----------
 
-Install ``thecut-durationfield`` using the :ref:`installation`.
+Install ``thecut-durationfield`` using the installation instructions found in the documentation.
 
 Model field
 ~~~~~~~~~~~
@@ -98,7 +98,7 @@ or, if you'd prefer to type in the (`ISO 8601`_ compliant) value manually:
 Credits
 -------
 
-See :ref:`credits`.
+See ``AUTHORS.rst``.
 
 
 .. _`ISO 8601`: http://en.wikipedia.org/wiki/ISO_8601#Durations
