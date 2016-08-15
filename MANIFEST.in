@@ -1,2 +1,4 @@
 include RELEASE-VERSION
-include README.rst CHANGES.rst AUTHORS LICENSE
+recursive-include docs *.rst
+include LICENSE
+include HISTORY.rst

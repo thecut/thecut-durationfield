@@ -1,5 +1,35 @@
-CHANGES
+.. :changelog:
+
 =======
+History
+=======
+
+
+2.0 (2016-08-15)
+------------------
+
+* Added support for Django 1.10.
+* Removed support for Django < 1.8.
+* Restructured test suite.
+* Restructured documentation.
+
+
+1.0.8 (2015-08-26)
+------------------
+
+* Improved handling of seconds and milliseconds.
+
+
+1.0.8 (2015-08-26)
+------------------
+
+* Improved handling of seconds and milliseconds.
+
+
+1.0.7 (2015-03-17)
+------------------
+
+* Added Python 3 support.
 
 
 1.0.6 (2014-07-28)

@@ -1,6 +1,15 @@
+*.pyc
+__pycache__
 *.py[co]
 .Python
 .DS_Store
 .tox
-RELEASE-VERSION
+.coverage
 *.egg-info
+RELEASE-VERSION
+pip-selfcheck.json
+bin
+include
+lib
+dist
+share
