@@ -44,7 +44,9 @@ setup(
     # Additional information
     url='https://projects.thecut.net.au/projects/thecut-durationfield',
     license='Apache Software License 2.0',
-    description='A reusable application.',
+    description=('Form and model fields for storing durations on Django '
+                 'models as ISO 8601 compliant strings, and returning '
+                 'relativedelta objects.'),
     long_description=long_description,
     platforms='any',
     classifiers=[
