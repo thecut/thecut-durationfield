@@ -5,6 +5,13 @@ History
 =======
 
 
+2.0.3 (2016-08-15)
+------------------
+
+* Removed cross-document links from README.rst as it breaks pypi.
+* Small fix to project's setup file.
+
+
 2.0.2 (2016-08-15)
 ------------------
 
