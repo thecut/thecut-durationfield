@@ -19,9 +19,17 @@ class TestISO8061DurationField(TestCase):
     def setUp(self):
         self.field = models.ISO8601DurationField()
 
-    def test_to_python_returns_a_duration_when_given_a_duration(self):
+    def test_from_db_value_calls_to_python_with_provided_value(self):
+        value = 'P7D'
+        with mock.patch.object(self.field, 'to_python') as to_python:
+            self.field.from_db_value(value)
 
+        self.assertTrue(to_python.called)
+        to_python.assert_called_with(value)
+
+    def test_to_python_returns_a_duration_when_given_a_duration(self):
         duration = isodate.parse_duration('P1M')
+
         self.assertEqual(type(duration), type(self.field.to_python(duration)))
 
     def test_to_python_returns_none_when_given_none(self):
