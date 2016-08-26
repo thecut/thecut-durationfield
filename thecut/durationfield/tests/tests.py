@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from .. import models, utils
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from django.core.exceptions import ValidationError
-import isodate
-from mock import Mock
-from .. import models
-from .. import utils
 from unittest import TestCase
+import isodate
+
+
+try:  # Python 3
+    from unittest import mock
+except ImportError:  # Python 2
+    import mock
 
 
 class TestISO8061DurationField(TestCase):
@@ -77,7 +81,8 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(self.field.get_prep_value(None), None)
 
     def test_converts_given_relativedelta_to_a_duration(self):
-        utils.convert_relativedelta_to_duration = Mock(return_value=isodate.parse_duration('P1M'))
+        utils.convert_relativedelta_to_duration = mock.Mock(
+            return_value=isodate.parse_duration('P1M'))
         delta = relativedelta(months=1)
         self.field.get_prep_value(delta)
 
@@ -132,7 +137,8 @@ class TestRelativeDeltaField(TestCase):
         self.assertEqual(duration_string, 'P1M2D')
 
     def test_converts_given_duration_to_relativedelta(self):
-        utils.convert_duration_to_relativedelta = Mock(return_value=relativedelta())
+        utils.convert_duration_to_relativedelta = mock.Mock(
+            return_value=relativedelta())
         self.field.to_python('P1M')
         self.assertTrue(utils.convert_duration_to_relativedelta.called)
 
