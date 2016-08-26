@@ -26,6 +26,9 @@ class ISO8601DurationField(models.Field):
         self.max_length = kwargs['max_length'] = 64
         super(ISO8601DurationField, self).__init__(*args, **kwargs)
 
+    def from_db_value(self, value, *args, **kwargs):
+        return self.to_python(value)
+
     def get_internal_type(self):
         return 'CharField'
 
