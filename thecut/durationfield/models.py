@@ -49,7 +49,8 @@ class ISO8601DurationField(models.Field):
         if value == '':
             return None
 
-        if isinstance(value, isodate.duration.Duration) or isinstance(value, timedelta):
+        if isinstance(value, isodate.duration.Duration) or isinstance(
+                value, timedelta):
             return value
 
         try:

@@ -32,7 +32,7 @@ class TestISO8061DurationField(TestCase):
 
         self.assertEqual(None, self.field.to_python(''))
 
-    def test_to_python_returns_a_duration_when_given_a_validly_formatted_string(self):
+    def test_to_python_returns_a_duration_when_given_a_validly_formatted_string(self):  # NOQA
 
         self.assertEqual(isodate.duration.Duration,
                          type(self.field.to_python('P1M')))
@@ -41,7 +41,7 @@ class TestISO8061DurationField(TestCase):
 
         self.assertRaises(ValidationError, self.field.to_python, 'abc')
 
-    def test_get_prep_value_raises_an_error_when_called_with_an_invalid_object(self):
+    def test_get_prep_value_raises_an_error_when_called_with_an_invalid_object(self):  # NOQA
 
         self.assertRaises(ValidationError, self.field.get_prep_value, 'abc')
 
@@ -63,7 +63,7 @@ class TestRelativeDeltaField(TestCase):
     def setUp(self):
         self.field = models.RelativeDeltaField()
 
-    def test_returns_a_relativedelta_when_given_an_iso8601_formatted_string(self):
+    def test_returns_a_relativedelta_when_given_an_iso8601_formatted_string(self):  # NOQA
 
         d = relativedelta()
         self.assertEqual(type(d), type(self.field.to_python('P1M')))
@@ -87,7 +87,8 @@ class TestRelativeDeltaField(TestCase):
         self.field.get_prep_value(delta)
 
         self.assertTrue(utils.convert_relativedelta_to_duration.called)
-        self.assertTrue(utils.convert_relativedelta_to_duration.called_with(delta))
+        self.assertTrue(utils.convert_relativedelta_to_duration.called_with(
+            delta))
 
     def test_can_convert_relativedelta_months(self):
         delta = relativedelta(months=1)
@@ -165,7 +166,7 @@ class TestRelativeDeltaField(TestCase):
     def test_can_convert_duration_hours(self):
         duration = isodate.duration.Duration(hours=1)
         delta = utils.convert_duration_to_relativedelta(duration)
-        self.assertEqual(delta.seconds, 60*60)
+        self.assertEqual(delta.seconds, 60 * 60)
 
     def test_can_convert_duration_minutes(self):
         duration = isodate.duration.Duration(minutes=1)
@@ -195,7 +196,8 @@ class TestRelativeDeltaField(TestCase):
         # error from deep inside relativedelta.
 
         duration = isodate.duration.Duration(months=1.5)
-        one_and_a_half_months = utils.convert_duration_to_relativedelta(duration)
+        one_and_a_half_months = utils.convert_duration_to_relativedelta(
+            duration)
         january_first = datetime(2013, 1, 1)
         february_first = datetime(2013, 2, 1)
         self.assertEqual(january_first + one_and_a_half_months, february_first)
@@ -209,9 +211,11 @@ class TestRelativeDeltaField(TestCase):
         # error from deep inside relativedelta.
 
         duration = isodate.duration.Duration(years=1.5)
-        one_and_a_half_years = utils.convert_duration_to_relativedelta(duration)
+        one_and_a_half_years = utils.convert_duration_to_relativedelta(
+            duration)
         january_first = datetime(2013, 1, 1)
-        self.assertEqual(january_first + one_and_a_half_years, datetime(2014, 1, 1))
+        self.assertEqual(
+            january_first + one_and_a_half_years, datetime(2014, 1, 1))
 
     def test_can_add_a_relative_delta_for_a_partial_day_to_a_datetime(self):
         # Actually, turns out 1.5 days is ok, since it gets magically converted

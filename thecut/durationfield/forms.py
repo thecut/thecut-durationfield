@@ -57,6 +57,7 @@ class RelativeDeltaChoiceField(ChoiceField):
                     return True
         return False
 
+
 class RelativeDeltaTextInput(Field):
 
     widget = widgets.RelativeDeltaTextInput
