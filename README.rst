@@ -70,7 +70,7 @@ Two form fields are provided: ``RelativeDeltaChoiceField`` and
 .. code:: python
 
     from django import forms
-    from thecut.durationfield.models import RelativeDeltaChoiceField
+    from thecut.durationfield.form import RelativeDeltaChoiceField
 
     DURATIONS = [
         ('', 'Never'),
